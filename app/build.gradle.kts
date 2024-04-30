@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.sit.sociallogin"
+    namespace = "com.sit.common.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.sit.sociallogin"
+        applicationId = "com.sit.common.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

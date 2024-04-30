@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SocialLogin"
+rootProject.name = "SitCommon"
 include(":app")
 include(":sit-common")
