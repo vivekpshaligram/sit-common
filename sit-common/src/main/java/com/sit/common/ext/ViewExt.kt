@@ -5,12 +5,24 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
-fun View.hide(){
+fun View.hide() {
     this.visibility = View.GONE
 }
 
-fun View.show(){
+fun View.show() {
     this.visibility = View.VISIBLE
+}
+
+fun hideView(vararg hide: View) {
+    hide.forEach { view -> view.hide() }
+}
+
+fun showView(vararg show: View) {
+    show.forEach { view -> view.show() }
+}
+
+fun hideShowViews(bool: Boolean, vararg view: View) {
+    view.onEach { if (bool) it.show() else it.hide() }
 }
 
 fun View.enable() {

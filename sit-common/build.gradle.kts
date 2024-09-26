@@ -11,7 +11,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 28
     }
 
     buildTypes {
@@ -46,6 +46,13 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.navigation.fragment)
+    implementation(libs.logging.interceptor)
+    implementation(libs.gson)
+    implementation(libs.hilt.android)
+    implementation(libs.retrofit2)
+    implementation(libs.sdp)
+    implementation(libs.ssp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

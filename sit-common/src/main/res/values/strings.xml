@@ -4,4 +4,9 @@
     <item name="fb_login_protocol_scheme" type="string" />
     <item name="default_web_client_id" type="string" />
     <string name="google_default_web_client_id" translatable="false">@string/default_web_client_id</string>
+    <string name="choose_file">Choose File</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="success">Success</string>
+    <string name="please_select_less_than">Please select less than</string>
 </resources>
