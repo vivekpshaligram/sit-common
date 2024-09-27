@@ -9,4 +9,5 @@
     <string name="camera">Camera</string>
     <string name="success">Success</string>
     <string name="please_select_less_than">Please select less than</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -10,12 +10,13 @@ import androidx.databinding.DataBindingUtil
 import com.sit.common.R
 import com.sit.common.databinding.DialogProgressBinding
 
-class ProgressDialog(context: Context) :
-    Dialog(context) {
+class ProgressDialog(context: Context) : Dialog(context) {
+
     private lateinit var binding: DialogProgressBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
             R.layout.dialog_progress,

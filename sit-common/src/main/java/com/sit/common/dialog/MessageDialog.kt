@@ -10,15 +10,40 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.sit.common.R
 import com.sit.common.databinding.DialogMessageBinding
+import com.sit.common.ext.hideShowViews
+import com.sit.common.ext.isNotNullOrEmpty
 
-class MessageDialog(
-    context: Context,
-    private val message: String
-) : Dialog(context) {
+class MessageDialog(context: Context) : Dialog(context) {
+
     private lateinit var binding: DialogMessageBinding
+    private var title: String? = null
+    private var message: String? = null
+    private var positiveButtonText: String? = null
+
+    companion object {
+        fun getInstance(context: Context): MessageDialog {
+            return MessageDialog(context)
+        }
+    }
+
+    fun setTitle(title: String): MessageDialog {
+        this.title = title
+        return this
+    }
+
+    fun setMessage(msg: String): MessageDialog {
+        message = msg
+        return this
+    }
+
+    fun setButtonText(btnText: String): MessageDialog {
+        positiveButtonText = btnText
+        return this
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
             R.layout.dialog_message,
@@ -26,8 +51,15 @@ class MessageDialog(
             false
         )
 
-        binding.title = ""
+        binding.title = title
         binding.message = message
+
+        if (positiveButtonText.isNotNullOrEmpty()) {
+            binding.txtOk.text = positiveButtonText
+        }
+
+        hideShowViews(title.isNotNullOrEmpty(), binding.txtTitle)
+        hideShowViews(message.isNotNullOrEmpty(), binding.txtMessage)
 
         setContentView(binding.root)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

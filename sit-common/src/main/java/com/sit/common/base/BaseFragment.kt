@@ -23,6 +23,7 @@ import com.sit.common.dialog.ImagePickerDialogFragment
 import com.sit.common.dialog.MessageDialog
 import com.sit.common.dialog.ProgressDialog
 import com.sit.common.ext.withGravity
+import com.sit.common.interfaces.FilePickerPermission
 import com.sit.common.interfaces.OnDismissedCall
 import com.sit.common.interfaces.OnItemSelected
 import com.sit.common.utils.PrintLog.printMsg
@@ -83,7 +84,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     }
 
     private fun messageDialog(message: String) {
-        MessageDialog(mActivity, message).show()
+        MessageDialog.getInstance(mActivity).setMessage(message).show()
     }
 
     protected fun String.successDialog() {
@@ -123,16 +124,34 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
 
     protected fun openImagePickerDialog(
         isChooseFile: Boolean = false,
+        fileSizeInMB: Int = 15,
+        filePickerPermission: FilePickerPermission,
         onItemSelected: OnItemSelected<Uri>
     ) {
         //get image uri
-        ImagePickerDialogFragment(isChooseFile).onItemSelect { t ->
-            if (t != null) {
-                printMsg("Image: $t")
-                onItemSelected.onItemSelected(t)
-            }
-        }.show(
-            mActivity.supportFragmentManager, "ImagePickerDialogFragment"
-        )
+        ImagePickerDialogFragment
+            .getInstance()
+            .chooseFile(isChooseFile)
+            .fileSize(fileSizeInMB)
+            .onFilePickerPermission(object : FilePickerPermission {
+                override fun cameraPermission() {
+
+                }
+
+                override fun galleryPermission() {
+
+                }
+
+                override fun filePermission() {
+
+                }
+            }).onItemSelect { t ->
+                if (t != null) {
+                    printMsg("Image: $t")
+                    onItemSelected.onItemSelected(t)
+                }
+            }.show(
+                mActivity.supportFragmentManager, "ImagePickerDialogFragment"
+            )
     }
 }

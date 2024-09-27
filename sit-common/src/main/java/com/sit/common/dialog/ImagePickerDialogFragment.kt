@@ -23,24 +23,46 @@ import com.sit.common.R
 import com.sit.common.databinding.FragmentImagePickerDialogBinding
 import com.sit.common.ext.copyUriToFile
 import com.sit.common.ext.hideShowViews
+import com.sit.common.interfaces.FilePickerPermission
 import com.sit.common.interfaces.OnItemSelected
 import com.sit.common.utils.PrintLog.printMsg
 import java.io.File
 import java.util.Date
 
-class ImagePickerDialogFragment(
-    private val isChooseFile: Boolean = false,
-    private val fileSizeInMB: Int = 15
-) : DialogFragment() {
+class ImagePickerDialogFragment : DialogFragment() {
 
     private lateinit var binding: FragmentImagePickerDialogBinding
     private var imgFile: File? = null
     private var imagePath: Uri? = null
+    private var isChooseFile: Boolean = false
+    private var fileSizeInMB: Int = 15
     private lateinit var onItemSelected: OnItemSelected<Uri>
+    private lateinit var pickerPermission: FilePickerPermission
     private lateinit var mActivity: FragmentActivity
+
+    companion object {
+        fun getInstance(): ImagePickerDialogFragment {
+            return ImagePickerDialogFragment()
+        }
+    }
+
+    fun chooseFile(chooseFile: Boolean): ImagePickerDialogFragment {
+        isChooseFile = chooseFile
+        return this
+    }
+
+    fun fileSize(fileSize: Int): ImagePickerDialogFragment {
+        fileSizeInMB = fileSize
+        return this
+    }
 
     fun onItemSelect(onItemSelected: OnItemSelected<Uri>): ImagePickerDialogFragment {
         this.onItemSelected = onItemSelected
+        return this
+    }
+
+    fun onFilePickerPermission(filePickerPermission: FilePickerPermission): ImagePickerDialogFragment {
+        pickerPermission = filePickerPermission
         return this
     }
 
@@ -73,58 +95,19 @@ class ImagePickerDialogFragment(
     private fun onClick() {
 
         binding.txtCamera.setOnClickListener {
-            /*if (mActivity.cameraPermission()) {
-                //Request Camera Permission From User
-                requestCameraPermission.launch(requestCamera)
-            } else {
-                displayCamera()
-            }*/
+            pickerPermission.cameraPermission()
         }
 
         binding.txtGallery.setOnClickListener {
-            /*if (mActivity.storagePermission()) {
-                //Request Storage Permission From User
-                requestStoragePermission.launch(requestStorage)
-            } else {
-                openGallery()
-            }*/
+            pickerPermission.galleryPermission()
         }
 
         binding.txtChooseFile.setOnClickListener {
-            /*if (mActivity.storagePermission()) {
-                //Request Storage Permission From User
-                requestStoragePermission.launch(requestStorage)
-            } else {
-                openFilePicker()
-            }*/
+            pickerPermission.filePermission()
         }
     }
 
-    /*private val requestCameraPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                // PERMISSION GRANTED
-                displayCamera()
-            } else {
-                // PERMISSION NOT GRANTED
-//                showSettingDialog(mActivity, mActivity.getString(R.string.camera_permission_desc))
-            }
-        }
-
-    private val requestStoragePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                // PERMISSION GRANTED
-                val pickPhoto =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                galleryActivityResult.launch(pickPhoto)
-            } else {
-                // PERMISSION NOT GRANTED
-//                showSettingDialog(mActivity, mActivity.getString(R.string.gallery_permission_desc))
-            }
-        }*/
-
-    private fun displayCamera() {
+    fun displayCamera() {
         val destPath: String? = mActivity.getExternalFilesDir(null)?.absolutePath
         val imagesFolder = File(destPath, "File")
         try {
@@ -142,13 +125,13 @@ class ImagePickerDialogFragment(
         }
     }
 
-    private fun openGallery() {
+    fun openGallery() {
         //Select Image From Gallery
         val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryActivityResult.launch(pickPhoto)
     }
 
-    private fun openFilePicker() {
+    fun openFilePicker() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             type = "*/*"
             putExtra(
@@ -212,14 +195,15 @@ class ImagePickerDialogFragment(
                 imgFile = null
                 imagePath = null
                 dismiss()
-                MessageDialog(
-                    mActivity,
-                    String.format(
-                        "%s %s MB File",
-                        mActivity.getString(R.string.please_select_less_than),
-                        fileSizeInMB
-                    )
-                ).show()
+                MessageDialog
+                    .getInstance(mActivity)
+                    .setMessage(
+                        String.format(
+                            "%s %s MB File",
+                            mActivity.getString(R.string.please_select_less_than),
+                            fileSizeInMB
+                        )
+                    ).show()
             }
         }
     }
