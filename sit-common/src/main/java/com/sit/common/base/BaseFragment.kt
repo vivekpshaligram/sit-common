@@ -62,7 +62,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
                 viewModel.isLoading.observe(viewLifecycleOwner) { it.manageProgressbar() }
                 viewModel.isSecondaryLoading.observe(viewLifecycleOwner) { it.manageProgressbar() }
                 viewModel.errorMessage.observe(viewLifecycleOwner) { it.showSnackBar() }
-                viewModel.successMessage.observe(viewLifecycleOwner) { it.showSnackBar() }
+                viewModel.successMessage.observe(viewLifecycleOwner) { it.successDialog() }
                 observer()
             }
         }
