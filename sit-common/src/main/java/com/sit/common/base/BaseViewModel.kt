@@ -65,14 +65,12 @@ abstract class BaseViewModel : ViewModel() {
         if (code() == 401) {
             preferenceManager.removeAllPrefs()
             isSessionTimeOut.postValue(true)
-        } else
-            errorMessage.postValue(errorBody().errorMessage())
+        } else errorMessage.postValue(errorBody().errorMessage())
     }
 
 
     protected fun Response<out ResponseModel<out Any>>.success() {
-        if (body()?.message != null)
-            successMessage.postValue(body()?.message)
+        if (body()?.message != null) successMessage.postValue(body()?.message)
     }
 
     protected fun loading(isLoad: Boolean) {
@@ -84,8 +82,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected inline fun <reified T> MutableList<T>.clearList() {
-        if (page == 1)
-            this.clear()
+        if (page == 1) this.clear()
     }
 
     fun managePagination(
@@ -94,14 +91,9 @@ abstract class BaseViewModel : ViewModel() {
         onDismissedCall: OnDismissedCall,
     ) {
         val view: View = scrollView.getChildAt(scrollView.childCount - 1) ?: return
-        val diff: Int =
-            view.bottom - (scrollView.height + scrollView.scrollY)
+        val diff: Int = view.bottom - (scrollView.height + scrollView.scrollY)
 
-        if (diff in 0..999
-            && !isDataEmpty
-            && perPage * page == size
-            && isPagination.value == false
-        ) {
+        if (diff in 0..999 && !isDataEmpty && perPage * page == size && isPagination.value == false) {
             isPagination.postValue(true)
             page++
             onDismissedCall.onDismissCalled()
@@ -115,14 +107,9 @@ abstract class BaseViewModel : ViewModel() {
     ) {
         val view: View = scrollView.getChildAt(scrollView.childCount - 1) ?: return
 
-        val diff: Int =
-            view.bottom - (scrollView.height + scrollView.scrollY)
+        val diff: Int = view.bottom - (scrollView.height + scrollView.scrollY)
 
-        if (diff in 0..999
-            && !isDataEmpty
-            && perPage * page == size
-            && isPagination.value == false
-        ) {
+        if (diff in 0..999 && !isDataEmpty && perPage * page == size && isPagination.value == false) {
             isPagination.postValue(true)
             page++
             onDismissedCall.onDismissCalled()
