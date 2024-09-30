@@ -46,11 +46,11 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel> : AppCompat
         if (this) showProgressbar() else hideProgressbar()
     }
 
-    fun String.showSnackBar() {
+    fun String.showSnackBar(gravity: Int = Gravity.TOP) {
         Snackbar.make(binding.root, this, Toast.LENGTH_SHORT)
 //            .withBackgroundColor(viewModel.colorPrimary().color())
 //            .withTextColor(viewModel.colorSecondary().color())
-            .withGravity(Gravity.TOP).show()
+            .withGravity(gravity).show()
     }
 
 }

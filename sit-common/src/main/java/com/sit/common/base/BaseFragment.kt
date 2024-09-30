@@ -47,7 +47,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.lifecycleOwner = this
@@ -75,12 +75,11 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
             progressDialog = ProgressDialog(mActivity)
         }
 
-        if (progressDialog?.isShowing != true)
-            progressDialog?.show()
+        if (progressDialog?.isShowing != true) progressDialog?.show()
     }
 
     fun hideProgressbar() {
-        if (isAdded && progressDialog != null && progressDialog?.isShowing == true) progressDialog!!.dismiss()
+        if (isAdded && progressDialog != null && progressDialog?.isShowing == true) progressDialog?.dismiss()
     }
 
     protected fun Boolean.manageProgressbar() {
@@ -95,11 +94,11 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         messageDialog(this)
     }
 
-    protected fun String.showSnackBar() {
+    protected fun String.showSnackBar(gravity: Int = Gravity.TOP) {
         Snackbar.make(binding.root, this, Toast.LENGTH_SHORT)
 //            .withBackgroundColor(viewModel.colorPrimary().color())
 //            .withTextColor(viewModel.colorSecondary().color())
-            .withGravity(Gravity.TOP).show()
+            .withGravity(gravity).show()
     }
 
     protected fun snackBar(message: String) {
@@ -125,31 +124,18 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
         })
     }
 
-
     protected fun openImagePickerDialog(
         isChooseFile: Boolean = false,
         fileSizeInMB: Int = 15,
         filePickerPermission: FilePickerPermission,
-        onItemSelected: OnItemSelected<Uri>
+        onItemSelected: OnItemSelected<Uri>,
     ) {
         //get image uri
-        ImagePickerDialogFragment
-            .getInstance()
+        ImagePickerDialogFragment.getInstance()
             .chooseFile(isChooseFile)
             .fileSize(fileSizeInMB)
-            .onFilePickerPermission(object : FilePickerPermission {
-                override fun cameraPermission() {
-
-                }
-
-                override fun galleryPermission() {
-
-                }
-
-                override fun filePermission() {
-
-                }
-            }).onItemSelect { t ->
+            .onFilePickerPermission(filePickerPermission)
+            .onItemSelect { t ->
                 if (t != null) {
                     printMsg("Image: $t")
                     onItemSelected.onItemSelected(t)

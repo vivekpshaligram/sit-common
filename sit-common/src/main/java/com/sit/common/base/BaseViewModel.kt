@@ -48,19 +48,18 @@ abstract class BaseViewModel : ViewModel() {
     var searchJob: Job? = null
     var isApiCalling = false
 
-    protected fun Response<out ResponseModel<out Any>>.checkResponse(onDismissedCall: OnDismissedCall? = null): Boolean {
+    abstract fun updatePerPage()
+
+    protected fun Response<out ResponseModel<out Any>>.checkResponse(): Boolean {
         return if (isSuccessful && body() != null) {
             true
         } else {
-            manageErrorAndSessionOut(onDismissedCall)
+            manageErrorAndSessionOut()
             false
         }
     }
 
-    /***
-     * Need to manage refresh token api
-     * */
-    protected fun Response<out ResponseModel<out Any>>.manageErrorAndSessionOut(onDismissedCall: OnDismissedCall? = null) {
+    protected fun Response<out ResponseModel<out Any>>.manageErrorAndSessionOut() {
         isLoading.postValue(false)
         isSecondaryLoading.postValue(false)
         if (code() == 401) {
@@ -84,7 +83,7 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected fun <T> MutableList<T>.clearList() {
+    protected inline fun <reified T> MutableList<T>.clearList() {
         if (page == 1)
             this.clear()
     }
@@ -92,7 +91,7 @@ abstract class BaseViewModel : ViewModel() {
     fun managePagination(
         scrollView: NestedScrollView,
         size: Int,
-        onDismissedCall: OnDismissedCall
+        onDismissedCall: OnDismissedCall,
     ) {
         val view: View = scrollView.getChildAt(scrollView.childCount - 1) ?: return
         val diff: Int =
@@ -112,7 +111,7 @@ abstract class BaseViewModel : ViewModel() {
     fun managePagination(
         scrollView: RecyclerView,
         size: Int,
-        onDismissedCall: OnDismissedCall
+        onDismissedCall: OnDismissedCall,
     ) {
         val view: View = scrollView.getChildAt(scrollView.childCount - 1) ?: return
 

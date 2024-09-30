@@ -10,18 +10,16 @@ import com.sit.common.databinding.DialogConfirmationBinding
 
 class ConfirmationDialog(
     context: Context,
-    private var message: String?
+    private var message: String?,
 ) : Dialog(context) {
 
     private lateinit var binding: DialogConfirmationBinding
     private var listener: OkButtonListener? = null
-    private var listenerClick: OkButtonClick? = null
     private var positiveTxt = context.getString(android.R.string.ok)
     private var title: String? = null
     private var negativeTxt = context.getString(R.string.cancel)
     private var negativeBtnVisibility = View.GONE
     private var cancellable = false
-    private var isFromDelete = false
 
     companion object {
         fun getInstance(
@@ -30,16 +28,6 @@ class ConfirmationDialog(
         ): ConfirmationDialog {
             return ConfirmationDialog(context, message)
         }
-    }
-
-    fun setMessage(msg: String): ConfirmationDialog {
-        message = msg
-        return this
-    }
-
-    fun setConfirm(isDelete: Boolean): ConfirmationDialog {
-        isFromDelete = isDelete
-        return this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +48,7 @@ class ConfirmationDialog(
         binding.btnCancel.visibility = negativeBtnVisibility
         binding.titleText = title
         binding.btnOk.setOnClickListener {
-            if (listener == null && !isFromDelete) dismiss()
+            if (listener == null) dismiss()
             else {
                 listener?.onOkPressed(this)
             }
@@ -73,13 +61,18 @@ class ConfirmationDialog(
         }
     }
 
-    fun setListener(listener: OkButtonListener?): ConfirmationDialog {
-        this.listener = listener
+    fun setTitle(title: String): ConfirmationDialog {
+        this.title = title
         return this
     }
 
-    fun setListener(listener: OkButtonClick?): ConfirmationDialog {
-        this.listenerClick = listener
+    fun setMessage(msg: String): ConfirmationDialog {
+        message = msg
+        return this
+    }
+
+    fun setListener(listener: OkButtonListener?): ConfirmationDialog {
+        this.listener = listener
         return this
     }
 
@@ -99,20 +92,11 @@ class ConfirmationDialog(
         return this
     }
 
-    fun setTitles(title: String): ConfirmationDialog {
-        this.title = title
-        return this
-    }
-
     interface OkButtonListener {
         fun onOkPressed(dialog: ConfirmationDialog)
 
         fun onCancelClicked(dialog: ConfirmationDialog) {
             dialog.dismiss()
         }
-    }
-
-    interface OkButtonClick {
-        fun onOkPressed(dialog: ConfirmationDialog, message: String)
     }
 }

@@ -33,6 +33,14 @@ fun View.disable() {
     this.isEnabled = false
 }
 
+fun enableView(vararg enable: View) {
+    enable.forEach { it.enable() }
+}
+
+fun disableView(vararg disable: View) {
+    disable.forEach { it.disable() }
+}
+
 fun EditText.showKeyboard() {
     requestFocus()
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

@@ -187,7 +187,7 @@ class ImagePickerDialogFragment : DialogFragment() {
 
     private fun checkFileSize() {
         if (this::onItemSelected.isInitialized) {
-            imgFile = imagePath?.let { copyUriToFile(mActivity, it) }
+            imgFile = imagePath?.let { mActivity.copyUriToFile(it) }
             if (imgFile != null && imgFile!!.length() <= (fileSizeInMB * 1024 * 1024)) {
                 onItemSelected.onItemSelected(imagePath)
                 dismiss()

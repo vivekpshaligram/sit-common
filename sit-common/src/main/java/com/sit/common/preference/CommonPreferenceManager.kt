@@ -2,6 +2,7 @@ package com.sit.common.preference
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.sit.common.R
 import com.sit.common.ext.convertToJson
 import com.sit.common.ext.convertToList
 import com.sit.common.ext.convertToModel
@@ -17,17 +18,20 @@ class CommonPreferenceManager @Inject constructor(@ApplicationContext context: C
     }
 
     val pref: SharedPreferences by lazy {
-        context.getSharedPreferences(Constant.SIT_COMMON, Context.MODE_PRIVATE)
+        context.getSharedPreferences(
+            String.format(
+                "%s_%s", context.getString(R.string.app_name), Constant.SIT_COMMON
+            ), Context.MODE_PRIVATE
+        )
     }
 
-    private val editor: SharedPreferences.Editor = pref.edit()
+    val editor: SharedPreferences.Editor = pref.edit()
 
     var authToken: String
         get() = getDataByKey(AUTH_TOKEN, "")
-        set(fcm) = pref.edit().putString(AUTH_TOKEN, fcm).apply()
+        set(fcm) = editor.putString(AUTH_TOKEN, fcm).apply()
 
     inline fun <reified T> setPref(key: String, value: T) {
-        val editor = pref.edit()
         when (value) {
             is Boolean -> editor.putBoolean(key, (value as Boolean?)!!)
             is String -> editor.putString(key, value as String?)
@@ -71,35 +75,34 @@ class CommonPreferenceManager @Inject constructor(@ApplicationContext context: C
     }
 
     inline fun <reified T> setJsonPref(key: String, value: T) {
-        val editor = pref.edit()
-        editor.putString(key, convertToJson(value))
+        editor.putString(key, value.convertToJson())
         editor.apply()
     }
 
     inline fun <reified T> getArrayJsonPref(key: String): T? {
         val getValue = getDataByKey(key)
         return if (getValue.isNotNullOrEmpty()) {
-            convertToList(getValue)
+            getValue.convertToList()
         } else {
             null
         }
     }
 
-    inline fun <reified T> getModelJsonPref(key: String, value: T): T? {
+    inline fun <reified T> getModelJsonPref(key: String): T? {
         val getValue = getDataByKey(key)
         return if (getValue.isNotNullOrEmpty()) {
-            convertToModel(getValue)
+            getValue.convertToModel()
         } else {
             null
         }
     }
 
     fun removePref(key: String) {
-        pref.edit().remove(key).apply()
+        editor.remove(key).apply()
     }
 
     fun removeAllPrefs() {
-        pref.edit().clear().apply()
+        editor.clear().apply()
     }
 
     @JvmOverloads

@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import com.sit.common.ext.hideShowViews
 
@@ -43,5 +44,14 @@ fun requestFocus(view: MaterialTextView, isRequestFocus: Boolean?) {
 fun requestFocus(spinner: AppCompatSpinner, isRequestFocus: Boolean?) {
     if (isRequestFocus == true) {
         spinner.performClick()
+    }
+}
+
+@BindingAdapter("errorText")
+fun setErrorMessage(view: TextInputLayout, errorMessage: Int?) {
+    if (errorMessage == null) {
+        view.isErrorEnabled = false
+    } else {
+        view.error = errorMessage.let { view.context.getString(it) }
     }
 }

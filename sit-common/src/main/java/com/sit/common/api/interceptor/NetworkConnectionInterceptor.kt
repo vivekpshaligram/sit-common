@@ -3,7 +3,7 @@ package com.sit.common.api.interceptor
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.sit.common.utils.Constant
+import com.sit.common.R
 import com.sit.common.utils.NoInternetException
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,7 +18,7 @@ class NetworkConnectionInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!isInternetAvailable())
-            throw NoInternetException(Constant.NO_INTERNET)
+            throw NoInternetException(applicationContext.getString(R.string.no_internet))
         return chain.proceed(chain.request())
     }
 

@@ -17,8 +17,8 @@ import androidx.appcompat.widget.SearchView
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sit.common.utils.Constant
 import com.sit.common.model.ErrorResponse
+import com.sit.common.utils.Constant
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -61,13 +61,13 @@ fun Context.checkNetwork(): Boolean {
 }
 
 
-fun getFileName(url: String): String? {
-    return URLUtil.guessFileName(url, null, null)
+fun String.getFileName(): String? {
+    return URLUtil.guessFileName(this, null, null)
 }
 
-fun getFileName(context: Context, uri: Uri): String? {
+fun Context.getFileName(uri: Uri): String? {
     var fileName: String? = null
-    val contentResolver: ContentResolver = context.contentResolver
+    val contentResolver: ContentResolver = contentResolver
 
     if (uri.scheme == "content") {
         var cursor: Cursor? = null
@@ -100,16 +100,14 @@ val TEMP_IMAGE_FILE_NAME = "IMG_" + System.currentTimeMillis() + ".jpg"
 /**
  * convert uri to file
  * */
-fun copyUriToFile(context: Context, uri: Uri): File? {
+fun Context.copyUriToFile(uri: Uri): File? {
     var `in`: InputStream? = null
     var out: OutputStream? = null
     var outFile: File? = null
     try {
-        if (context.contentResolver != null) {
-            `in` = context.contentResolver.openInputStream(uri)
-            outFile = createImageFile(
-                context, TEMP_IMAGE_FILE_NAME
-            )
+        if (contentResolver != null) {
+            `in` = contentResolver.openInputStream(uri)
+            outFile = createImageFile(TEMP_IMAGE_FILE_NAME)
             if (outFile != null && `in` != null) {
                 out = FileOutputStream(outFile)
                 val buf = ByteArray(1024)
@@ -137,19 +135,19 @@ fun copyUriToFile(context: Context, uri: Uri): File? {
 }
 
 @Throws(IOException::class)
-fun createImageFile(context: Context, imageFileName: String): File? {
-    var storageDir = context.filesDir
+fun Context.createImageFile(imageFileName: String): File? {
+    var storageDir = filesDir
     val dirCreated: Boolean
     if (storageDir == null) {
-        val externalStorage = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val externalStorage = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         if (externalStorage == null) {
-            storageDir = File(context.cacheDir, Environment.DIRECTORY_PICTURES)
+            storageDir = File(cacheDir, Environment.DIRECTORY_PICTURES)
             dirCreated = storageDir.exists() || storageDir.mkdirs()
         } else {
             dirCreated = true
         }
     } else {
-        storageDir = File(context.filesDir, Environment.DIRECTORY_PICTURES)
+        storageDir = File(filesDir, Environment.DIRECTORY_PICTURES)
         dirCreated = storageDir.exists() || storageDir.mkdirs()
     }
     return if (dirCreated) {
@@ -174,7 +172,7 @@ fun Context.convertInMultiPart(
     imageKey: String
 ): MultipartBody.Part? {
 
-    val file = copyUriToFile(this, uri)
+    val file = copyUriToFile(uri)
     val reqFile = file?.asRequestBody("*/*".toMediaTypeOrNull())
 
     return if (reqFile != null) MultipartBody.Part.createFormData(
@@ -189,12 +187,12 @@ fun String.createRequestBody(s: String): Pair<String, RequestBody> =
 fun String.createRequestBody(): RequestBody = this.toRequestBody("text/plain".toMediaTypeOrNull())
 
 
-inline fun <reified T> convertToModel(data: String): T = Gson().fromJson(data, T::class.java)
+inline fun <reified T> String.convertToModel(): T = Gson().fromJson(this, T::class.java)
 
-inline fun <reified T> convertToList(json: String): T =
-    Gson().fromJson(json, object : TypeToken<T>() {}.type)
+inline fun <reified T> String.convertToList(): T =
+    Gson().fromJson(this, object : TypeToken<T>() {}.type)
 
-inline fun <reified T> convertToJson(model: T): String = Gson().toJson(model)
+inline fun <reified T> T.convertToJson(): String = Gson().toJson(this)
 
 fun Snackbar.withBackgroundColor(color: Int): Snackbar {
     this.setBackgroundTint(color)
@@ -214,7 +212,7 @@ fun Snackbar.withGravity(gravity: Int): Snackbar {
     return this
 }
 
-inline fun <T> List<T>.spinnerIndex(predicate: (T) -> Boolean): Int {
+inline fun <reified T> List<T>.spinnerIndex(predicate: (T) -> Boolean): Int {
     for ((index, item) in this.withIndex()) if (predicate(item))
         return index
     return 0
@@ -229,7 +227,7 @@ fun SearchView.clearSearch() {
 
 fun ResponseBody?.errorMessage(): String {
     return try {
-        convertToModel<ErrorResponse<Any>>(this?.string()!!).message?.errorMessage()
+        this?.string()?.convertToModel<ErrorResponse<Any>>()?.message?.errorMessage()
             ?: Constant.SOMETHING_WENT_WRONG
     } catch (e: Exception) {
         Constant.SOMETHING_WENT_WRONG

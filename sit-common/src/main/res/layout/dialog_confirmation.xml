@@ -33,9 +33,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
+                    android:text="@{titleText}"
                     android:textSize="@dimen/_18ssp"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:titleTextVisibility="@{titleText}"
+                    app:visibility="@{!titleText.empty}"
                     tools:text="Title" />
 
                 <androidx.appcompat.widget.AppCompatTextView
