@@ -9,4 +9,9 @@
     </style>
 
     <style name="ThemeSocialLogin" parent="ThemeSocialLoginBase" />
+
+    <style name="DialogStyle" parent="Base.Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
 </resources>
