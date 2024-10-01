@@ -220,11 +220,6 @@ inline fun <reified T> List<T>.spinnerIndex(predicate: (T) -> Boolean): Int {
 
 fun Int?.isNotNullOrEmpty(): Boolean = this != null && this != 0
 
-fun SearchView.clearSearch() {
-    setQuery("", false)
-    clearFocus()
-}
-
 fun ResponseBody?.errorMessage(): String {
     return try {
         this?.string()?.convertToModel<ErrorResponse<Any>>()?.message?.errorMessage()

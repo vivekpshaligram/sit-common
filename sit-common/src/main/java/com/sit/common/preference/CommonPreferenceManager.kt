@@ -2,6 +2,8 @@ package com.sit.common.preference
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.sit.common.R
 import com.sit.common.ext.convertToJson
 import com.sit.common.ext.convertToList
@@ -17,11 +19,17 @@ class CommonPreferenceManager @Inject constructor(@ApplicationContext context: C
         const val AUTH_TOKEN = "AUTH_TOKEN"
     }
 
+    private val masterKeyAlias: String by lazy { MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC) }
+
     val pref: SharedPreferences by lazy {
-        context.getSharedPreferences(
+        EncryptedSharedPreferences.create(
             String.format(
                 "%s_%s", context.getString(R.string.app_name), Constant.SIT_COMMON
-            ), Context.MODE_PRIVATE
+            ),
+            masterKeyAlias,
+            context,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
     }
 

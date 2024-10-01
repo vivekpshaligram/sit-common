@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.retrofit2)
     implementation(libs.sdp)
     implementation(libs.ssp)
+    implementation(libs.security)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
