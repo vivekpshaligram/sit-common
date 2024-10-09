@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sit.common.model.ErrorResponse
+import com.sit.common.model.ResponseModel
 import com.sit.common.utils.Constant
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -227,4 +228,8 @@ fun ResponseBody?.errorMessage(): String {
     } catch (e: Exception) {
         Constant.SOMETHING_WENT_WRONG
     }
+}
+
+fun <T> ResponseModel<ArrayList<T>>?.list(): MutableList<T> {
+    return this?.data ?: mutableListOf()
 }

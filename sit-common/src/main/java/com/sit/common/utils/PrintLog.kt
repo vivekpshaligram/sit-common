@@ -1,10 +1,11 @@
 package com.sit.common.utils
 
 import android.util.Log
+import com.sit.common.BuildConfig
 
 object PrintLog {
 
-    var enableLog = false
+    var enableLog = BuildConfig.DEBUG
 
     fun printMsg(msg: Any) {
         if (enableLog) {

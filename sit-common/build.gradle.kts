@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("maven-publish")
@@ -50,6 +51,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.gson)
     implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.retrofit2)
     implementation(libs.sdp)
     implementation(libs.ssp)
@@ -71,7 +73,7 @@ afterEvaluate {
                 from (components["release"])
                 groupId = "com.github.sit"
                 artifactId = "android-common"
-                version = "2.0.0"
+                version = "2.0.1"
             }
         }
     }

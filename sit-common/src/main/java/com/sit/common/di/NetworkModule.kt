@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.sit.common.BuildConfig
 import com.sit.common.api.interceptor.AuthInterceptor
 import com.sit.common.api.interceptor.NetworkConnectionInterceptor
+import com.sit.common.preference.CommonPreferenceManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,5 +59,11 @@ object NetworkModule {
         if (BuildConfig.DEBUG)
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return loggingInterceptor
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(preferenceManager: CommonPreferenceManager, @ApplicationContext context: Context): AuthInterceptor {
+        return AuthInterceptor(preferenceManager, context)
     }
 }
