@@ -2,6 +2,7 @@ package com.sit.common.ext
 
 import android.text.TextUtils
 import android.util.Patterns
+import androidx.lifecycle.MutableLiveData
 import com.sit.common.utils.Constant
 
 fun String.isValidEmail() =
@@ -35,4 +36,20 @@ fun String.validateEnterMessage(): String {
 fun String.validateSelectMessage(): String {
     val error = String.format("%s %s", Constant.PLEASE_SELECT, this)
     return if (error.contains("*")) error.dropLast(1) else error
+}
+
+fun MutableLiveData<String?>.texts(): String {
+    return this.value ?: ""
+}
+
+fun MutableLiveData<String>.text(): String {
+    return this.value ?: ""
+}
+
+fun MutableLiveData<String>.textWithNull(): String? {
+    return this.value
+}
+
+fun String?.text(): String {
+    return this ?: ""
 }
