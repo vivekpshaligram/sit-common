@@ -16,7 +16,7 @@ Add the dependency
 
 ```
 dependencies {
-    implementation 'com.github.vivekpshaligram:sit-common:2.0.0'
+    implementation 'com.github.vivekpshaligram:sit-common:2.0.1'
 }
 ```
 
