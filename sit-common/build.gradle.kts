@@ -73,7 +73,7 @@ afterEvaluate {
                 from (components["release"])
                 groupId = "com.github.sit"
                 artifactId = "android-common"
-                version = "2.0.1"
+                version = "2.0.2"
             }
         }
     }

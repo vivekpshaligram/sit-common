@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SocialLogin"
         tools:targetApi="31">
         <activity
-            android:name="com.sit.sociallogin.LoginActivity"
+            android:name="com.sit.sociallogin.ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.sit.sociallogin
+package com.sit.sociallogin.ui
 
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,8 +11,6 @@ import com.sit.common.social.SocialLogin
 import com.sit.common.social.loginResult
 import com.sit.common.utils.PrintLog
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.migration.CustomInjection.inject
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -23,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        PrintLog.printMsg("apiInterface ${viewModel.apiInterface}")
+        PrintLog.printMsg("apiInterface ${viewModel.repository}")
 
         findViewById<AppCompatButton>(R.id.btnLoginWithGoogle).setOnClickListener {
             googleLoginResultListener.launch(
@@ -39,6 +37,10 @@ class LoginActivity : AppCompatActivity() {
                     this, SocialLogin.LoginType.FB
                 )
             )
+        }
+
+        findViewById<AppCompatButton>(R.id.btnSampleApiCall).setOnClickListener {
+            viewModel.getPostListApiCall()
         }
     }
 
