@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder
 import com.sit.common.api.interceptor.AuthInterceptor
 import com.sit.common.api.interceptor.NetworkConnectionInterceptor
 import com.sit.common.preference.CommonPreferenceManager
-import com.sit.common.utils.PrintLog
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,14 +58,6 @@ object NetworkModule {
         if (loggingEnable)
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return loggingInterceptor
-    }
-
-    @Provides
-    @Singleton
-    fun providePrintLog(loggingEnable: Boolean): PrintLog {
-        val printLog = PrintLog
-        printLog.enableLog = loggingEnable
-        return printLog
     }
 
     @Provides

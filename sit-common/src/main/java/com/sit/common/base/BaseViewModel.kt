@@ -12,6 +12,7 @@ import com.sit.common.ext.errorMessage
 import com.sit.common.interfaces.OnDismissedCall
 import com.sit.common.model.ResponseModel
 import com.sit.common.preference.CommonPreferenceManager
+import com.sit.common.utils.PrintLogManager
 import com.sit.common.utils.SingleLiveEvent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +34,9 @@ abstract class BaseViewModel : ViewModel() {
 
     @Inject
     lateinit var resourcesProvider: ResourcesProvider
+
+    @Inject
+    lateinit var printLogManager: PrintLogManager
 
     val errorMessage: SingleLiveEvent<String> = SingleLiveEvent()
     val successMessage: SingleLiveEvent<String> = SingleLiveEvent()

@@ -1,11 +1,16 @@
 package com.sit.common.utils
 
+import android.content.Context
 import android.util.Log
-import com.sit.common.BuildConfig
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-object PrintLog {
+class PrintLogManager @Inject constructor(
+    @ApplicationContext context: Context,
+    enableLog: Boolean = true,
+) {
 
-    var enableLog = BuildConfig.DEBUG
+    var enableLog = enableLog
 
     fun printMsg(msg: Any) {
         if (enableLog) {
