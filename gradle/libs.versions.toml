@@ -19,6 +19,7 @@ hilt = "2.52"
 retrofit2 = "2.11.0"
 sdp = "1.1.1"
 security = "1.0.0"
+lifecycleViewmodelKtx = "2.8.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +42,7 @@ retrofit2 = { group = "com.squareup.retrofit2", name = "converter-gson", version
 sdp = { group = "com.intuit.sdp", name = "sdp-android", version.ref = "sdp" }
 ssp = { group = "com.intuit.ssp", name = "ssp-android", version.ref = "sdp" }
 security = { group = "androidx.security", name = "security-crypto", version.ref = "security" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -1,31 +1,25 @@
-package com.sit.sociallogin
+package com.sit.sociallogin.ui
 
-import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import com.sit.common.app.R
+import com.sit.common.app.databinding.ActivityLoginBinding
+import com.sit.common.base.BaseActivity
 import com.sit.common.social.SocialLogin
 import com.sit.common.social.loginResult
-import com.sit.common.utils.PrintLog
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.migration.CustomInjection.inject
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
-    private val viewModel: LoginViewModel by viewModels()
+    override val viewModel: LoginViewModel by viewModels()
+    override val layoutId: Int = R.layout.activity_login
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+    override fun init() {
+        printLogManager.printMsg("apiInterface ${viewModel.repository}")
 
-        PrintLog.printMsg("apiInterface ${viewModel.apiInterface}")
-
-        findViewById<AppCompatButton>(R.id.btnLoginWithGoogle).setOnClickListener {
+        binding.btnLoginWithGoogle.setOnClickListener {
             googleLoginResultListener.launch(
                 SocialLogin.loginIntent(
                     this, SocialLogin.LoginType.GOOGLE
@@ -33,12 +27,16 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
-        findViewById<AppCompatButton>(R.id.btnLoginWithFacebook).setOnClickListener {
+        binding.btnLoginWithFacebook.setOnClickListener {
             facebookLoginResultListener.launch(
                 SocialLogin.loginIntent(
                     this, SocialLogin.LoginType.FB
                 )
             )
+        }
+
+        binding.btnSampleApiCall.setOnClickListener {
+            viewModel.getPostListApiCall()
         }
     }
 

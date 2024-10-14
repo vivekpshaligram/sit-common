@@ -2,7 +2,6 @@ package com.sit.common.di
 
 import android.content.Context
 import com.google.gson.GsonBuilder
-import com.sit.common.BuildConfig
 import com.sit.common.api.interceptor.AuthInterceptor
 import com.sit.common.api.interceptor.NetworkConnectionInterceptor
 import com.sit.common.preference.CommonPreferenceManager
@@ -54,16 +53,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideHttpLoggingInterceptor(loggingEnable: Boolean): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
-        if (BuildConfig.DEBUG)
+        if (loggingEnable)
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         return loggingInterceptor
     }
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor(preferenceManager: CommonPreferenceManager, @ApplicationContext context: Context): AuthInterceptor {
+    fun provideAuthInterceptor(
+        preferenceManager: CommonPreferenceManager,
+        @ApplicationContext context: Context,
+    ): AuthInterceptor {
         return AuthInterceptor(preferenceManager, context)
     }
 }

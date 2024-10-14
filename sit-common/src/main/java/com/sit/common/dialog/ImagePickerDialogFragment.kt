@@ -25,11 +25,17 @@ import com.sit.common.ext.copyUriToFile
 import com.sit.common.ext.hideShowViews
 import com.sit.common.interfaces.FilePickerPermission
 import com.sit.common.interfaces.OnItemSelected
-import com.sit.common.utils.PrintLog.printMsg
+import com.sit.common.utils.PrintLogManager
+import dagger.hilt.android.scopes.FragmentScoped
 import java.io.File
 import java.util.Date
+import javax.inject.Inject
 
+@FragmentScoped
 class ImagePickerDialogFragment : DialogFragment() {
+
+    @Inject
+    lateinit var printLogManager: PrintLogManager
 
     private lateinit var binding: FragmentImagePickerDialogBinding
     private var imgFile: File? = null
@@ -72,7 +78,7 @@ class ImagePickerDialogFragment : DialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_image_picker_dialog, container, false
@@ -159,7 +165,7 @@ class ImagePickerDialogFragment : DialogFragment() {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             //capture image from camera
-            printMsg("camera")
+            printLogManager.printMsg("camera")
             checkFileSize()
         }
     }
@@ -169,7 +175,7 @@ class ImagePickerDialogFragment : DialogFragment() {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             //get image from gallery
-            printMsg("gallery")
+            printLogManager.printMsg("gallery")
             imagePath = result.data?.data
             checkFileSize()
         }
@@ -179,7 +185,7 @@ class ImagePickerDialogFragment : DialogFragment() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            printMsg("file")
+            printLogManager.printMsg("file")
             imagePath = result.data?.data
             checkFileSize()
         }

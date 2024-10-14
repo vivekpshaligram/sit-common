@@ -26,14 +26,20 @@ import com.sit.common.ext.withGravity
 import com.sit.common.interfaces.FilePickerPermission
 import com.sit.common.interfaces.OnDismissedCall
 import com.sit.common.interfaces.OnItemSelected
-import com.sit.common.utils.PrintLog.printMsg
+import com.sit.common.utils.PrintLogManager
+import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@FragmentScoped
 abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment() {
 
     abstract val viewModel: VM
     protected lateinit var binding: VB
     abstract val layoutId: Int
+
+    @Inject
+    lateinit var printLogManager: PrintLogManager
 
     abstract fun observer()
     abstract fun init()
@@ -137,7 +143,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : Fragment
             .onFilePickerPermission(filePickerPermission)
             .onItemSelect { t ->
                 if (t != null) {
-                    printMsg("Image: $t")
+                    printLogManager.printMsg("Image: $t")
                     onItemSelected.onItemSelected(t)
                 }
             }.show(

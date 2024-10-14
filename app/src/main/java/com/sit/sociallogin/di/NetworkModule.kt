@@ -1,6 +1,7 @@
 package com.sit.sociallogin.di
 
-import com.sit.sociallogin.ApiInterface
+import com.sit.common.BuildConfig
+import com.sit.sociallogin.data.api.ApiInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,7 @@ object NetworkAppModule {
     @Singleton
     @Provides
     fun provideBaseUrl(): String {
-        return "https://google.com"
+        return "https://jsonplaceholder.typicode.com"
     }
 
     @Singleton
@@ -23,4 +24,8 @@ object NetworkAppModule {
     fun providesApiInterface(retrofit: Retrofit): ApiInterface {
         return retrofit.create(ApiInterface::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideLoggingEnable(): Boolean = BuildConfig.DEBUG
 }

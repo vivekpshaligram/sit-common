@@ -9,7 +9,11 @@ import androidx.databinding.ViewDataBinding
 import com.google.android.material.snackbar.Snackbar
 import com.sit.common.dialog.ProgressDialog
 import com.sit.common.ext.withGravity
+import com.sit.common.utils.PrintLogManager
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
 
+@ActivityScoped
 abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
 
     abstract val viewModel: VM
@@ -17,6 +21,9 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel> : AppCompat
     protected lateinit var binding: B
 
     abstract val layoutId: Int
+
+    @Inject
+    lateinit var printLogManager: PrintLogManager
 
     private var progressDialog: ProgressDialog? = null
 
