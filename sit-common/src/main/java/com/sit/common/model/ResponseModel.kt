@@ -3,9 +3,7 @@ package com.sit.common.model
 import com.google.gson.annotations.SerializedName
 
 data class ResponseModel<T>(
-    @SerializedName("data")
-    val `data`: T,
-    val message: String,
-    @SerializedName("success")
-    val success: Boolean,
+    @SerializedName(value = "data", alternate = ["Data"]) val `data`: T,
+    @SerializedName(value = "message", alternate = ["Message"]) val message: String,
+    @SerializedName(value = "success", alternate = ["Success"]) val success: Boolean,
 )
