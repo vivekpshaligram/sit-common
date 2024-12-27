@@ -23,7 +23,4 @@ class LoginViewModel @Inject constructor(val repository: Repository) : BaseViewM
         }
     }
 
-    override fun updatePerPage() {
-
-    }
 }
