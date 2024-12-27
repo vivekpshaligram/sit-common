@@ -46,13 +46,11 @@ abstract class BaseViewModel : ViewModel() {
         MutableLiveData<Boolean>().apply { this.postValue(false) }
     val isSessionTimeOut: SingleLiveEvent<Boolean> = SingleLiveEvent()
     var isDataEmpty = false
-    val perPage = 25
+    var perPage = 25
     var page = 1
     var searchValue: String? = null
     var searchJob: Job? = null
     var isApiCalling = false
-
-    abstract fun updatePerPage()
 
     protected fun Response<out ResponseModel<out Any>>.checkResponse(): Boolean {
         return if (isSuccessful && body() != null) {
