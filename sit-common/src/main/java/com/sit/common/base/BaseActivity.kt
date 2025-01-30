@@ -37,7 +37,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel> : AppCompat
         init()
     }
 
-    private fun showProgressbar() {
+     fun showProgressbar() {
         hideProgressbar()
         if (progressDialog == null) {
             progressDialog = ProgressDialog(this)
