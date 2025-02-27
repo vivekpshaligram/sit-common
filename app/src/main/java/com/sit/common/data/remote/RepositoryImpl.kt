@@ -1,6 +1,6 @@
-package com.sit.sociallogin.data.remote
+package com.sit.common.data.remote
 
-import com.sit.sociallogin.data.api.ApiInterface
+import com.sit.common.data.api.ApiInterface
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

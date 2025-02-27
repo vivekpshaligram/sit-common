@@ -1,4 +1,4 @@
-package com.sit.sociallogin
+package com.sit.common
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

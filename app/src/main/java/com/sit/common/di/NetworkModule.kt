@@ -1,7 +1,7 @@
-package com.sit.sociallogin.di
+package com.sit.common.di
 
 import com.sit.common.BuildConfig
-import com.sit.sociallogin.data.api.ApiInterface
+import com.sit.common.data.api.ApiInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

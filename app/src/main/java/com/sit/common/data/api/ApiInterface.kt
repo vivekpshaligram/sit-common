@@ -1,4 +1,4 @@
-package com.sit.sociallogin.data.api
+package com.sit.common.data.api
 
 import retrofit2.Response
 import retrofit2.http.GET

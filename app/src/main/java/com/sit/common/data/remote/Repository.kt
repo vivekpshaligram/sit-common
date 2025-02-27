@@ -1,4 +1,4 @@
-package com.sit.sociallogin.data.remote
+package com.sit.common.data.remote
 
 import kotlinx.coroutines.flow.Flow
 

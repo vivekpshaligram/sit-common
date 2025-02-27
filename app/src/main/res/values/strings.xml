@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">SocialLogin</string>
-    <string name="login_with_google">Login With Google</string>
-    <string name="login_with_facebook">Login With Facebook</string>
+    <string name="app_name">SitCommon</string>
     <string name="sample_api_call">Sample Api Call</string>
 </resources>

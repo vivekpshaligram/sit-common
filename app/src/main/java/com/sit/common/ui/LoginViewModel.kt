@@ -1,8 +1,8 @@
-package com.sit.sociallogin.ui
+package com.sit.common.ui
 
 import androidx.lifecycle.viewModelScope
 import com.sit.common.base.BaseViewModel
-import com.sit.sociallogin.data.remote.Repository
+import com.sit.common.data.remote.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch

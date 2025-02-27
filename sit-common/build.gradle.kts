@@ -60,8 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    api(libs.play.services.auth)
-    api(libs.facebook.login)
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     implementation(libs.retrofit)
 }

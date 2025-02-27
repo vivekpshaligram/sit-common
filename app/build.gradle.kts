@@ -55,4 +55,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(project(path = ":sit-common"))
+
+    implementation("com.google.mlkit:face-detection:16.1.7")
 }

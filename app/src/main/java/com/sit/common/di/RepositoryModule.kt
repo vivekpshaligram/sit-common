@@ -1,7 +1,7 @@
-package com.sit.sociallogin.di
+package com.sit.common.di
 
-import com.sit.sociallogin.data.remote.Repository
-import com.sit.sociallogin.data.remote.RepositoryImpl
+import com.sit.common.data.remote.Repository
+import com.sit.common.data.remote.RepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
